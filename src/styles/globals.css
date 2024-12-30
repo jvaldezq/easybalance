@@ -1,0 +1,17 @@
+@import '../../node_modules/@fontsource-variable/montserrat';
+@import '../../node_modules/@fontsource-variable/montserrat/wght-italic.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+    font-family: 'Montserrat Variable', sans-serif;
+    box-sizing: border-box;
+}
+
+@layer base {
+    :root {
+        --radius: 0.5rem;
+    }
+}
