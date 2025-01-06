@@ -1,0 +1,65 @@
+export interface IBill {
+  id?: string;
+  name?: string;
+  category?: IBILL_CATEGORY;
+  type?: IBILL_TYPE;
+  amount?: number;
+  accumulatedAmount?: number;
+  currency?: ICURRENCY;
+  isPublic?: boolean;
+  expenses?: IExpense[];
+  createdAt?: Date;
+  updatedAt?: Date;
+}
+
+export interface IExpense {
+  id?: string;
+  description?: string;
+  currency?: ICURRENCY;
+  paymentMethod?: PAYMENT_TYPE;
+  amount?: number;
+  billId?: string;
+  bill?: IBill;
+  createdAt?: Date;
+  updatedAt?: Date;
+}
+
+export enum PAYMENT_TYPE {
+  CREDIT_CARD = 'CREDIT_CARD',
+  SINPE = 'SINPE',
+  BANK_TRANSFER = 'BANK_TRANSFER',
+  AUTOMATIC_DEBIT = 'AUTOMATIC_DEBIT',
+}
+
+export enum IBILL_CATEGORY {
+  TRANSPORTATION = 'TRANSPORTATION',
+  GIFTS = 'GIFTS',
+  HEALTH = 'HEALTH',
+  SAVINGS = 'SAVINGS',
+  EDUCATION = 'EDUCATION',
+  DOG = 'DOG',
+  FOOD = 'FOOD',
+  SERVICES = 'SERVICES',
+  HOUSE = 'HOUSE',
+  RESPONSABILITY = 'RESPONSABILITY',
+  OTHER = 'OTHER',
+  FUN = 'FUN',
+}
+
+export enum IBILL_TYPE {
+  MUST = 'MUST',
+  DESIRE = 'DESIRE',
+  SAVINGS = 'SAVINGS',
+  FUN = 'FUN',
+  OTHER = 'OTHER',
+}
+
+export enum ICURRENCY {
+  USD = 'USD',
+  CRC = 'CRC',
+}
+
+export interface IExpenseAmount {
+  bill?: IBill;
+  monthExpenseAmount?: number;
+}

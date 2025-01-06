@@ -1,12 +1,18 @@
 import Link from 'next/link';
+import { Suspense } from 'react';
 
+import { ExpenseCardLoader } from '@/app/expense/ExpenseCardLoader';
+import { ExpenseList } from '@/app/expense/ExpenseList';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 
 const Bills = async () => {
   return (
     <section className="relative">
-      <Link href="/bills/new">
+      <Suspense fallback={<ExpenseCardLoader />}>
+        <ExpenseList />
+      </Suspense>
+      <Link href="/expense/new">
         <Button
           variant="outline"
           className={cn(

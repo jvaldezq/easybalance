@@ -4,38 +4,38 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
 import { BillIcon } from '@/assets/icons/bill';
-import { CreditIcon } from '@/assets/icons/credit';
-import { IncomeIcon } from '@/assets/icons/income';
-import { ProfileIcon } from '@/assets/icons/profile';
-import { StatsIcon } from '@/assets/icons/stats';
+// import { CreditIcon } from '@/assets/icons/credit';
+// import { IncomeIcon } from '@/assets/icons/income';
+// import { ProfileIcon } from '@/assets/icons/profile';
+// import { StatsIcon } from '@/assets/icons/stats';
 import { cn } from '@/lib/utils';
 
 const navigationItems = [
+  // {
+  //   href: '/stats',
+  //   icon: StatsIcon,
+  //   label: 'Estadística',
+  // },
+  // {
+  //   href: '/credit',
+  //   icon: CreditIcon,
+  //   label: 'Créditos',
+  // },
   {
-    href: '/stats',
-    icon: StatsIcon,
-    label: 'Estadística',
-  },
-  {
-    href: '/credit',
-    icon: CreditIcon,
-    label: 'Créditos',
-  },
-  {
-    href: '/bills',
+    href: '/expense',
     icon: BillIcon,
     label: 'Gastos',
   },
-  {
-    href: '/income',
-    icon: IncomeIcon,
-    label: 'Ingresos',
-  },
-  {
-    href: '/profile',
-    icon: ProfileIcon,
-    label: 'Perfil',
-  },
+  // {
+  //   href: '/income',
+  //   icon: IncomeIcon,
+  //   label: 'Ingresos',
+  // },
+  // {
+  //   href: '/profile',
+  //   icon: ProfileIcon,
+  //   label: 'Perfil',
+  // },
 ];
 
 export const Navigation = () => {

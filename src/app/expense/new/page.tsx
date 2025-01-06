@@ -1,6 +1,6 @@
 import Link from 'next/link';
 
-import { CreateBill } from '@/app/bills/new/form/CreateBill';
+import { CreateExpense } from '@/app/expense/new/form/CreateExpense';
 import { BackIcon } from '@/assets/icons/back';
 import { cn } from '@/lib/utils';
 
@@ -13,7 +13,7 @@ const NewBills = async () => {
           'top-0',
           'left-0',
           'w-full',
-          'h-14',
+          'h-12',
           'flex',
           'items-center',
           'p-4',
@@ -25,11 +25,11 @@ const NewBills = async () => {
           'bg-bgWhite',
         )}
       >
-        <Link href="/bills">
+        <Link href="/expense">
           <BackIcon />
         </Link>
       </section>
-      <CreateBill />
+      <CreateExpense />
     </section>
   );
 };

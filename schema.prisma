@@ -8,10 +8,29 @@ datasource db {
   directUrl = env("POSTGRES_URL_NON_POOLING")
 }
 
-model Location {
+model Bill {
   id        String   @id @default(uuid())
   name      String   @unique
-  status    Boolean
+  category  String
+  type      String
+  amount    Float
+  accumulatedAmount    Float
+  currency  String
+  isPublic  Boolean @default(false)
+  expenses  Expense[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+
+model Expense {
+  id              String   @id @default(uuid())
+  description     String?
+  currency        String
+  paymentMethod   String
+  amount          Float
+  billId          String
+  bill            Bill @relation(fields: [billId], references: [id])
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }

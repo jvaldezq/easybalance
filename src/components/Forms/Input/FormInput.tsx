@@ -24,6 +24,7 @@ export interface FormInputProps
   mask?: string | object;
   hidden?: boolean;
   onFilter?: (value: string) => void;
+  focus?: boolean;
 }
 
 export const FormInput = forwardRef(
@@ -43,10 +44,19 @@ export const FormInput = forwardRef(
       mask,
       hidden = false,
       onFilter,
+      focus = false,
       ...rest
     } = props;
     const { onChange, value, ...inputRest } = input;
     const myRef = useRef<HTMLInputElement | null>(null);
+
+    useEffect(() => {
+      if (myRef?.current && focus) {
+        if (myRef.current) {
+          myRef.current.focus();
+        }
+      }
+    }, [focus]);
 
     useEffect(() => {
       if (myRef?.current) {

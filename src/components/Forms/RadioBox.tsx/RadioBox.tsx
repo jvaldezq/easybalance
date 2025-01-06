@@ -38,6 +38,7 @@ export const FormRadioBox = forwardRef(
       input,
       options,
       className,
+      disabled,
     } = props;
     const { onChange, value } = input;
 
@@ -79,6 +80,7 @@ export const FormRadioBox = forwardRef(
                 variant={value === option.id ? 'default' : 'outline'}
                 onClick={() => handleClick(option.id)}
                 key={option.id}
+                disabled={disabled}
               >
                 {option.name}
               </Button>

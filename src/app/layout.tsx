@@ -1,6 +1,7 @@
 import { ReactNode } from 'react';
 
 import { Navigation } from '@/components/Navigation';
+import { QueryWrapper } from '@/components/QueryWrapper';
 
 import type { Metadata } from 'next';
 import '@/styles/globals.css';
@@ -18,8 +19,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="bg-white">
-        {children}
-        <Navigation />
+        <QueryWrapper>
+          {children}
+          <Navigation />
+        </QueryWrapper>
       </body>
     </html>
   );
