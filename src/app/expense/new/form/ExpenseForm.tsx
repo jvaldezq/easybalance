@@ -41,7 +41,7 @@ export const ExpenseForm = (props: FormPropsType) => {
     <form
       id="bill-form"
       onSubmit={handleSubmit}
-      className="flex flex-col gap-4"
+      className="flex flex-col gap-4 mb-40"
     >
       <Field
         name="amount"
@@ -103,6 +103,7 @@ export const ExpenseForm = (props: FormPropsType) => {
             'w-1/2',
             'rounded-3xl',
             'animate-fade-down animate-duration-[1500ms] animate-ease-in-out',
+            'z-10',
           )}
         >
           Crear Gasto

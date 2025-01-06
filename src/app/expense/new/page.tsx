@@ -23,6 +23,7 @@ const NewBills = async () => {
           'border-solid',
           'border-primary/[0.1]',
           'bg-bgWhite',
+          'z-10',
         )}
       >
         <Link href="/expense">
