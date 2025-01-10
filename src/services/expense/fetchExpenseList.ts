@@ -1,12 +1,23 @@
 import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
 
 import { IExpense } from '@/lib/definitions';
 import prisma from '@/lib/prisma';
+dayjs.extend(utc);
 
 export const fetchExpenseList = async () => {
   try {
-    const startOfDay = dayjs().startOf('day').toDate();
-    const endOfDay = dayjs().endOf('day').toDate();
+    // Convert Costa Rica time (UTC -6) to GMT (UTC)
+    const startOfDayInCostaRica = dayjs()
+      .utc()
+      .subtract(6, 'hours')
+      .startOf('day');
+    const endOfDayInCostaRica = dayjs().utc().subtract(6, 'hours').endOf('day');
+
+    // Convert those to GMT by adding 6 hours to the Costa Rica time
+    const startOfDayInGMT = startOfDayInCostaRica.add(6, 'hours').toDate();
+    const endOfDayInGMT = endOfDayInCostaRica.add(6, 'hours').toDate();
+
     return (await prisma.expense.findMany({
       select: {
         id: true,
@@ -25,8 +36,8 @@ export const fetchExpenseList = async () => {
       },
       where: {
         createdAt: {
-          gte: startOfDay,
-          lte: endOfDay,
+          gte: startOfDayInGMT,
+          lte: endOfDayInGMT,
         },
       },
     })) as IExpense[];
