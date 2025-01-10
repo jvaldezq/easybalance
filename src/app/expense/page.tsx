@@ -6,7 +6,9 @@ import { ExpenseList } from '@/app/expense/ExpenseList';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 
-const Bills = async () => {
+export const revalidate = 0;
+
+const Expense = async () => {
   return (
     <section className="relative">
       <Suspense fallback={<ExpenseCardLoader />}>
@@ -39,4 +41,4 @@ const Bills = async () => {
   );
 };
 
-export default Bills;
+export default Expense;

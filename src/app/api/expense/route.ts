@@ -1,4 +1,3 @@
-import { revalidatePath } from 'next/cache';
 import { NextResponse } from 'next/server';
 
 import { createExpense } from '@/services/expense/createExpense';
@@ -18,7 +17,6 @@ export async function POST(request: Request) {
     }
 
     const expense = await createExpense(body);
-    revalidatePath('/expense', 'page');
     return NextResponse.json(expense, { status: 200 });
   } catch (error) {
     console.error('Error in POST /expense:', error);
