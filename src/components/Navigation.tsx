@@ -1,13 +1,9 @@
 'use client';
 
+import { Settings, Receipt } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
-import { BillIcon } from '@/assets/icons/bill';
-// import { CreditIcon } from '@/assets/icons/credit';
-// import { IncomeIcon } from '@/assets/icons/income';
-// import { ProfileIcon } from '@/assets/icons/profile';
-// import { StatsIcon } from '@/assets/icons/stats';
 import { cn } from '@/lib/utils';
 
 const navigationItems = [
@@ -23,8 +19,13 @@ const navigationItems = [
   // },
   {
     href: '/expense',
-    icon: BillIcon,
+    icon: Receipt,
     label: 'Gastos',
+  },
+  {
+    href: '/config',
+    icon: Settings,
+    label: 'Config',
   },
   // {
   //   href: '/income',
@@ -62,6 +63,7 @@ export const Navigation = () => {
               'justify-center',
               'items-center',
               'gap-1.5',
+              'text-tertiary',
               'animate-fade-up animate-once animate-duration-1000 animate-ease-in-out',
             )}
           >
@@ -71,9 +73,8 @@ export const Navigation = () => {
             <span
               className={cn(
                 'text-xs',
-                'text-tertiary',
                 'font-medium',
-                pathname.includes(href) ? undefined : 'opacity-80',
+                pathname.includes(href) ? undefined : 'opacity-70',
               )}
             >
               {label}

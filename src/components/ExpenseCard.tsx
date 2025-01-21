@@ -23,7 +23,7 @@ export const ExpenseCard = (props: ExpenseCardProps) => {
       )}
     >
       <div className="flex gap-3">
-        <div className="p-2 rounded-lg bg-uranian/10 h-fit">
+        <div className="p-2 rounded-lg bg-uranian/20 h-fit">
           <CircleHelp className="w-5 h-5 text-primary" />
         </div>
         <div className="flex-1 min-w-0">

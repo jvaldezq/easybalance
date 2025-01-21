@@ -1,9 +1,11 @@
 import { ReactNode } from 'react';
 
+import BackHeader from '@/components/BackHeader';
 import { Navigation } from '@/components/Navigation';
 import { QueryWrapper } from '@/components/QueryWrapper';
 
 import type { Metadata } from 'next';
+
 import '@/styles/globals.css';
 
 export const metadata: Metadata = {
@@ -20,6 +22,7 @@ export default function RootLayout({
     <html lang="en">
       <body className="bg-white">
         <QueryWrapper>
+          <BackHeader />
           {children}
           <Navigation />
         </QueryWrapper>

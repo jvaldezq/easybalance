@@ -5,8 +5,19 @@ import prisma from '@/lib/prisma';
 
 export const fetchMonthExpenseAmount = async (billId: string) => {
   try {
-    const startOfMonth = dayjs().startOf('month').toDate();
-    const endOfMonth = dayjs().endOf('month').toDate();
+    // Convert Costa Rica time (UTC -6) to GMT (UTC)
+    const startOfDayInCostaRica = dayjs()
+      .utc()
+      .subtract(6, 'hours')
+      .startOf('month');
+    const endOfDayInCostaRica = dayjs()
+      .utc()
+      .subtract(6, 'hours')
+      .endOf('month');
+
+    // Convert those to GMT by adding 6 hours to the Costa Rica time
+    const startOfDayInGMT = startOfDayInCostaRica.add(6, 'hours').toDate();
+    const endOfDayInGMT = endOfDayInCostaRica.add(6, 'hours').toDate();
 
     const bill = await prisma.bill.findUnique({
       select: {
@@ -27,8 +38,8 @@ export const fetchMonthExpenseAmount = async (billId: string) => {
       where: {
         billId: billId,
         createdAt: {
-          gte: startOfMonth,
-          lte: endOfMonth,
+          gte: startOfDayInGMT,
+          lte: endOfDayInGMT,
         },
       },
     });

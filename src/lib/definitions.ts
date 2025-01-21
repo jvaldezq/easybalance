@@ -54,6 +54,14 @@ export enum IBILL_TYPE {
   OTHER = 'OTHER',
 }
 
+export enum IBILL_TYPE_TRANSLATION {
+  MUST = 'Necesidad',
+  DESIRE = 'Deseo',
+  SAVINGS = 'Ahorro',
+  FUN = 'Diversión',
+  OTHER = 'Otro',
+}
+
 export enum ICURRENCY {
   USD = 'USD',
   CRC = 'CRC',

@@ -1,8 +1,8 @@
 import Link from 'next/link';
 import { Suspense } from 'react';
 
-import { ExpenseCardLoader } from '@/app/expense/ExpenseCardLoader';
-import { ExpenseList } from '@/app/expense/ExpenseList';
+import { ExpenseCardLoader } from '@/components/ExpenseCardLoader';
+import { ExpenseList } from '@/components/ExpenseList';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 
