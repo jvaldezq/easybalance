@@ -1,7 +1,10 @@
 import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
 
 import { IExpenseAmount } from '@/lib/definitions';
 import prisma from '@/lib/prisma';
+
+dayjs.extend(utc);
 
 export const fetchMonthExpenseAmount = async (billId: string) => {
   try {
@@ -31,6 +34,7 @@ export const fetchMonthExpenseAmount = async (billId: string) => {
         id: billId,
       },
     });
+
     const expenseAmount = await prisma.expense.aggregate({
       _sum: {
         amount: true,

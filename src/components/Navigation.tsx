@@ -1,6 +1,6 @@
 'use client';
 
-import { Settings, Receipt } from 'lucide-react';
+import { Settings, ReceiptText, HandCoins } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
@@ -19,8 +19,13 @@ const navigationItems = [
   // },
   {
     href: '/expense',
-    icon: Receipt,
+    icon: ReceiptText,
     label: 'Gastos',
+  },
+  {
+    href: '/income',
+    icon: HandCoins,
+    label: 'Ingresos',
   },
   {
     href: '/config',
