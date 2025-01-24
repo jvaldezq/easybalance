@@ -12,7 +12,7 @@ interface Props {
   searchParams?: Promise<Record<string, string | undefined>>;
 }
 
-const Income = async ({ params, searchParams }: Props) => {
+const Income = async ({ searchParams }: Props) => {
   const resolvedSearchParams = await searchParams;
   const filters = resolvedSearchParams?.filters;
   const month = filters ? JSON.parse(atob(filters))?.month : undefined;
