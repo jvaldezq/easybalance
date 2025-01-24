@@ -1,18 +1,29 @@
 import Link from 'next/link';
 import { Suspense } from 'react';
 
+import { Filters } from '@/app/income/Filters';
+import { IncomeList } from '@/app/income/IncomeList';
 import { ExpenseCardLoader } from '@/components/ExpenseCardLoader';
-import { ExpenseList } from '@/components/ExpenseList';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 
-const Income = async () => {
+interface Props {
+  params?: Promise<Record<string, string | undefined>>;
+  searchParams?: Promise<Record<string, string | undefined>>;
+}
+
+const Income = async ({ params, searchParams }: Props) => {
+  const resolvedSearchParams = await searchParams;
+  const filters = resolvedSearchParams?.filters;
+  const month = filters ? JSON.parse(atob(filters))?.month : undefined;
+
   return (
     <section className="relative">
-      {/*<Suspense fallback={<ExpenseCardLoader />}>*/}
-      {/*  <ExpenseList />*/}
-      {/*</Suspense>*/}
-      <Link href="/expense/new">
+      <Filters />
+      <Suspense key={filters} fallback={<ExpenseCardLoader />}>
+        <IncomeList month={month} />
+      </Suspense>
+      <Link href="/income/new">
         <Button
           variant="outline"
           className={cn(

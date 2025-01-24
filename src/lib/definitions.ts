@@ -24,6 +24,18 @@ export interface IExpense {
   updatedAt?: Date;
 }
 
+export interface IIncome {
+  id?: string;
+  description?: string;
+  category?: string;
+  amount?: number;
+  currency?: ICURRENCY;
+  ivaTax?: number;
+  rentTax?: number;
+  createdAt?: Date;
+  updatedAt?: Date;
+}
+
 export enum PAYMENT_TYPE {
   CREDIT_CARD = 'CREDIT_CARD',
   SINPE = 'SINPE',
@@ -65,6 +77,22 @@ export enum IBILL_TYPE_TRANSLATION {
 export enum ICURRENCY {
   USD = 'USD',
   CRC = 'CRC',
+}
+
+export enum IINCOME_CATEGORY {
+  RENT = 'RENT',
+  OTHER = 'OTHER',
+  INSURANCE = 'INSURANCE',
+  FREELANCE = 'FREELANCE',
+  SALARY = 'SALARY',
+}
+
+export enum IINCOME_CATEGORY_TRANSLATION {
+  RENT = 'Alquiler',
+  INSURANCE = 'Seguro',
+  FREELANCE = 'Freelance',
+  SALARY = 'Salario',
+  OTHER = 'Otro',
 }
 
 export interface IExpenseAmount {

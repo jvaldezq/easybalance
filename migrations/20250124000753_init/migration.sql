@@ -28,6 +28,21 @@ CREATE TABLE "Expense" (
     CONSTRAINT "Expense_pkey" PRIMARY KEY ("id")
 );
 
+-- CreateTable
+CREATE TABLE "Income" (
+    "id" TEXT NOT NULL,
+    "description" TEXT NOT NULL,
+    "category" TEXT NOT NULL,
+    "amount" DOUBLE PRECISION NOT NULL,
+    "currency" TEXT NOT NULL,
+    "ivaTax" DOUBLE PRECISION,
+    "rentTax" DOUBLE PRECISION,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "Income_pkey" PRIMARY KEY ("id")
+);
+
 -- CreateIndex
 CREATE UNIQUE INDEX "Bill_name_key" ON "Bill"("name");
 

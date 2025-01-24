@@ -1,29 +1,29 @@
 'use client';
 
-import { redirect } from 'next/navigation';
 import { useCallback } from 'react';
 import { Form } from 'react-final-form';
 
-import { initialValues } from '@/app/expense/new/form/types';
 import { useCreateExpenseMutation } from '@/app/expense/services/client';
+import { initialValues } from '@/app/income/new/form/types';
 import { IExpense } from '@/lib/definitions';
 
-import { ExpenseForm } from './ExpenseForm';
+import { IncomeForm } from './IncomeForm';
 
-export const CreateExpense = () => {
+export const CreateIncome = () => {
   const { mutateAsync } = useCreateExpenseMutation();
   const onSubmit = useCallback(
     (data: IExpense) => {
-      mutateAsync(data).then(() => {
-        redirect('/expense');
-      });
+      console.log('HELLO', data);
+      // mutateAsync(data).then(() => {
+      //   redirect('/expense');
+      // });
     },
     [mutateAsync],
   );
 
   return (
     <Form initialValues={initialValues} onSubmit={onSubmit}>
-      {(formProps) => <ExpenseForm {...formProps} />}
+      {(formProps) => <IncomeForm {...formProps} />}
     </Form>
   );
 };
