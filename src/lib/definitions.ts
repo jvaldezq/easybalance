@@ -56,6 +56,7 @@ export enum IBILL_CATEGORY {
   RESPONSABILITY = 'RESPONSABILITY',
   OTHER = 'OTHER',
   FUN = 'FUN',
+  FREELANCE = 'FREELANCE',
 }
 
 export enum IBILL_TYPE {
@@ -63,6 +64,7 @@ export enum IBILL_TYPE {
   DESIRE = 'DESIRE',
   SAVINGS = 'SAVINGS',
   FUN = 'FUN',
+  FREELANCE = 'FREELANCE',
   OTHER = 'OTHER',
 }
 
@@ -71,6 +73,7 @@ export enum IBILL_TYPE_TRANSLATION {
   DESIRE = 'Deseo',
   SAVINGS = 'Ahorro',
   FUN = 'Diversión',
+  FREELANCE = 'Freelance',
   OTHER = 'Otro',
 }
 
