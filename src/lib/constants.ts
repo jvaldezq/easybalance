@@ -82,6 +82,10 @@ export const BILL_CATEGORY = [
     id: IBILL_CATEGORY.FUN,
     name: 'Diversión',
   },
+  {
+    id: IBILL_CATEGORY.FREELANCE,
+    name: 'Freelance',
+  },
 ];
 
 export const BILL_TYPES = [
