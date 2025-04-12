@@ -1,120 +1,62 @@
 import dayjs from 'dayjs';
+import isBetween from 'dayjs/plugin/isBetween';
+import timezone from 'dayjs/plugin/timezone';
 import utc from 'dayjs/plugin/utc';
 
-import { IExpense } from '@/lib/definitions';
 import prisma from '@/lib/prisma';
+
 dayjs.extend(utc);
+dayjs.extend(timezone);
+dayjs.extend(isBetween);
 
 interface Props {
   billId?: string;
-  month?: string;
 }
 
-export const fetchExpenseList = async (props: Props) => {
-  const { billId, month } = props;
-  let byBillId = undefined;
-  let createdAt = undefined;
-
+export const fetchYearlyExpensesByBillId = async (props: Props) => {
   try {
-    if (billId) {
-      byBillId = {
-        billId: {
-          equals: billId,
-        },
-      };
+    const { billId } = props;
+    const now = dayjs().tz('America/Costa_Rica');
+    const yearStart = now.startOf('year').toDate();
+    const yearEnd = now.endOf('year').toDate();
 
-      if (month) {
-        // Convert Costa Rica time (UTC -6) to GMT (UTC)
-        const startOfDayInCostaRica = dayjs(month)
-          .utc()
-          .subtract(6, 'hours')
-          .startOf('month');
-        const endOfDayInCostaRica = dayjs(month)
-          .utc()
-          .subtract(6, 'hours')
-          .endOf('month');
-
-        // Convert those to GMT by adding 6 hours to the Costa Rica time
-        const startOfDayInGMT = startOfDayInCostaRica.add(6, 'hours').toDate();
-        const endOfDayInGMT = endOfDayInCostaRica.add(6, 'hours').toDate();
-
-        createdAt = {
-          createdAt: {
-            gte: startOfDayInGMT,
-            lte: endOfDayInGMT,
-          },
-        };
-      } else {
-        // Convert Costa Rica time (UTC -6) to GMT (UTC)
-        const startOfDayInCostaRica = dayjs()
-          .utc()
-          .subtract(6, 'hours')
-          .startOf('month');
-        const endOfDayInCostaRica = dayjs()
-          .utc()
-          .subtract(6, 'hours')
-          .endOf('month');
-
-        // Convert those to GMT by adding 6 hours to the Costa Rica time
-        const startOfDayInGMT = startOfDayInCostaRica.add(6, 'hours').toDate();
-        const endOfDayInGMT = endOfDayInCostaRica.add(6, 'hours').toDate();
-
-        createdAt = {
-          createdAt: {
-            gte: startOfDayInGMT,
-            lte: endOfDayInGMT,
-          },
-        };
-      }
-    } else {
-      // Convert Costa Rica time (UTC -6) to GMT (UTC)
-      const startOfDayInCostaRica = dayjs()
-        .utc()
-        .subtract(6, 'hours')
-        .startOf('day');
-      const endOfDayInCostaRica = dayjs()
-        .utc()
-        .subtract(6, 'hours')
-        .endOf('day');
-
-      // Convert those to GMT by adding 6 hours to the Costa Rica time
-      const startOfDayInGMT = startOfDayInCostaRica.add(6, 'hours').toDate();
-      const endOfDayInGMT = endOfDayInCostaRica.add(6, 'hours').toDate();
-
-      createdAt = {
+    // Get all expenses for the given billId and current year
+    const expenses = await prisma.expense.findMany({
+      where: {
+        billId,
         createdAt: {
-          gte: startOfDayInGMT,
-          lte: endOfDayInGMT,
+          gte: yearStart,
+          lte: yearEnd,
         },
-      };
-    }
-
-    return (await prisma.expense.findMany({
-      select: {
-        id: true,
-        amount: true,
-        currency: true,
-        paymentMethod: true,
-        bill: {
-          select: {
-            name: true,
-          },
-        },
-        description: true,
       },
       orderBy: {
-        createdAt: 'desc',
+        createdAt: 'asc',
       },
-      where: {
-        ...createdAt,
-        ...byBillId,
-      },
-    })) as IExpense[];
-  } catch (error) {
-    console.error('Error in fetchExpenseList service:', error);
+    });
 
+    // Initialize months map
+    const monthlyExpenses: Record<string, typeof expenses> = {};
+
+    for (let i = 0; i < 12; i++) {
+      const monthKey = dayjs().month(i).format('MMMM'); // e.g., "January"
+      monthlyExpenses[monthKey] = [];
+    }
+
+    // Group expenses by month
+    expenses.forEach((expense) => {
+      const localDate = dayjs(expense.createdAt).tz('America/Costa_Rica');
+      const monthKey = localDate.format('MMMM');
+      if (!monthlyExpenses[monthKey]) {
+        monthlyExpenses[monthKey] = [];
+      }
+      monthlyExpenses[monthKey].push(expense);
+    });
+
+    return monthlyExpenses;
+  } catch (error) {
+    console.error('Error in fetchYearlyExpensesByBillId:', error);
     throw new Error(
-      `Failed to create expense: ${error instanceof Error ? error.message : 'Unknown error'}`,
+      `Failed to fetch expenses: ${error instanceof Error ? error.message : 'Unknown error'}`,
     );
   }
 };

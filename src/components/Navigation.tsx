@@ -27,11 +27,11 @@ const navigationItems = [
     icon: HandCoins,
     label: 'Ingresos',
   },
-  {
-    href: '/config',
-    icon: Settings,
-    label: 'Config',
-  },
+  // {
+  //   href: '/config',
+  //   icon: Settings,
+  //   label: 'Config',
+  // },
   // {
   //   href: '/income',
   //   icon: IncomeIcon,

@@ -1,8 +1,8 @@
 import Link from 'next/link';
 import { Suspense } from 'react';
 
-import { ExpenseCardLoader } from '@/components/ExpenseCardLoader';
-import { ExpenseList } from '@/components/ExpenseList';
+import { BillCardLoader } from '@/app/expense/components/BillCardLoader';
+import { BillList } from '@/app/expense/components/BillList';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 
@@ -11,8 +11,8 @@ export const revalidate = 0;
 const Expense = async () => {
   return (
     <section className="relative">
-      <Suspense fallback={<ExpenseCardLoader />}>
-        <ExpenseList />
+      <Suspense fallback={<BillCardLoader />}>
+        <BillList />
       </Suspense>
       <Link href="/expense/new">
         <Button
@@ -34,7 +34,7 @@ const Expense = async () => {
             'animate-fade-down animate-duration-[1500ms] animate-ease-in-out',
           )}
         >
-          Crear
+          Crear gasto
         </Button>
       </Link>
     </section>

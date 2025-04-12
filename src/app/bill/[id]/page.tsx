@@ -10,20 +10,16 @@ dayjs.locale('es');
 
 interface Props {
   params?: Promise<Record<string, string | undefined>>;
-  searchParams?: Promise<Record<string, string | undefined>>;
 }
 
-const BillById = async ({ params, searchParams }: Props) => {
+const BillById = async ({ params }: Props) => {
   const resolvedParams = await params;
-  const resolvedSearchParams = await searchParams;
-  const filters = resolvedSearchParams?.filters;
   const billId = resolvedParams?.id;
-  const month = filters ? JSON.parse(atob(filters))?.month : undefined;
 
   return (
-    <section className="max-w-screen-lg mx-auto py-2 pt-12 flex flex-col gap-4 mb-8">
-      <Suspense key={filters} fallback={<ExpenseCardLoader />}>
-        <ExpenseList billId={billId} month={month} />
+    <section className="py-2 pt-12 flex flex-col gap-4 mb-8">
+      <Suspense fallback={<ExpenseCardLoader />}>
+        <ExpenseList billId={billId || ''} />
       </Suspense>
     </section>
   );
