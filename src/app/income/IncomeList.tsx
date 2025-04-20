@@ -17,12 +17,12 @@ export const IncomeList = async (props: IncomeListProps) => {
       const { amount = 0, currency, ivaTax, rentTax } = income;
       if (currency === ICURRENCY.USD) {
         acc.totalDollars += amount || 0;
-        if (ivaTax) acc.ivaTaxDollars += (amount * ivaTax) / 100;
-        if (rentTax) acc.rentTaxDollars += (amount * rentTax) / 100;
+        acc.ivaTaxDollars += ivaTax || 0;
+        acc.rentTaxDollars += rentTax || 0;
       } else if (income.currency === ICURRENCY.CRC) {
-        acc.totalColones += income.amount || 0;
-        if (ivaTax) acc.ivaTaxColones += (amount * ivaTax) / 100;
-        if (rentTax) acc.rentTaxColones += (amount * rentTax) / 100;
+        acc.totalColones += amount || 0;
+        acc.ivaTaxColones += ivaTax || 0;
+        acc.rentTaxColones += rentTax || 0;
       }
       return acc;
     },

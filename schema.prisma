@@ -46,3 +46,47 @@ model Income {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
+
+model Credit {
+  id                    String   @id @default(uuid())
+  bank                  String
+  interestRate          Float?
+  interestMoratorium    Float?
+  currency              String
+  interestAnual         Float
+  balance               Float
+  monthlyPayment        Float
+  insurance             Float
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+}
+
+model CreditCards {
+  id                    String   @id @default(uuid())
+  bank                  String
+  cashPaymentCRC        Float
+  cashPaymentUSD        Float
+  interestAnual         Float
+  interestMoratorium    Float
+  minimumPaymentCRC     Float
+  minimumPaymentUSD     Float
+  creditCardFinances    CreditCardFinance[]
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+}
+
+model CreditCardFinance {
+  id                    String   @id @default(uuid())
+  bank                  String
+  interestRate          Float?
+  interestMoratorium    Float?
+  currency              String
+  interestAnual         Float
+  balance               Float
+  monthlyPayment        Float
+  insurance             Float
+  creditCardId          String
+  creditCards           CreditCards @relation(fields: [creditCardId], references: [id])
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+}

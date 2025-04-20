@@ -9,13 +9,13 @@ import { FormRadioBox } from '@/components/Forms/RadioBox.tsx/RadioBox';
 import { FormSelect } from '@/components/Forms/Select/FormSelect';
 import { FormTextarea } from '@/components/Forms/Textarea/FormTextarea';
 import { Button } from '@/components/ui/button';
-import { CURRENCIES, PAYMENT_METHODS } from '@/lib/constants';
+import { CURRENCIES, INCOME_CATEGORY } from '@/lib/constants';
 import { cn } from '@/lib/utils';
 
-export const paymentMethods = [
+export const incomeCategories = [
   {
-    items: PAYMENT_METHODS,
-    label: 'Métodos de pago',
+    items: INCOME_CATEGORY,
+    label: 'Categoría',
   },
 ];
 
@@ -36,23 +36,9 @@ export const IncomeForm = (props: FormPropsType) => {
         validate={(value) =>
           value !== undefined ? undefined : 'Es necesario el monto'
         }
+        required={true}
         type="number"
         focus
-      />
-      <Field
-        name="paymentMethod"
-        component={FormSelect as unknown as SupportedInputs}
-        placeholder="Método de pago"
-        label="Método de pago"
-        options={paymentMethods}
-      />
-      <Field
-        name="currency"
-        component={FormRadioBox as unknown as SupportedInputs}
-        label="Moneda"
-        className="grid grid-cols-2"
-        options={CURRENCIES}
-        disabled={true}
       />
       <Field
         name="description"
@@ -60,9 +46,42 @@ export const IncomeForm = (props: FormPropsType) => {
         placeholder="Descripción"
         label="Descripción"
         type="textarea"
+        validate={(value) =>
+          value !== undefined ? undefined : 'Es necesaria la descripción'
+        }
+        required={true}
+      />
+      <Field
+        name="category"
+        component={FormSelect as unknown as SupportedInputs}
+        label="Categoría"
+        className="grid grid-cols-2"
+        options={incomeCategories}
+        validate={(value) =>
+          value !== undefined ? undefined : 'Es necesaria la categoría'
+        }
+        required={true}
+      />
+      <Field
+        name="currency"
+        component={FormRadioBox as unknown as SupportedInputs}
+        label="Moneda"
+        className="grid grid-cols-2"
+        options={CURRENCIES}
+      />
+      <Field
+        name="ivaTax"
+        component={FormInput as unknown as SupportedInputs}
+        label="Monto impuesto IVA"
+      />
+      <Field
+        name="rentTax"
+        component={FormInput as unknown as SupportedInputs}
+        label="Monto impuesto Renta"
       />
       {valid && (
         <Button
+          type="submit"
           variant="outline"
           className={cn(
             'bg-tertiary',
@@ -82,7 +101,7 @@ export const IncomeForm = (props: FormPropsType) => {
             'z-10',
           )}
         >
-          Crear Gasto
+          Crear Ingreso
         </Button>
       )}
     </form>

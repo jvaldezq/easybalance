@@ -110,3 +110,11 @@ export const BILL_TYPES = [
     name: 'Otro',
   },
 ];
+
+export const INCOME_CATEGORY = [
+  { id: 'OTHER', name: 'Otro' },
+  { id: 'RENT', name: 'Renta' },
+  { id: 'HEALTH INSURANCE', name: 'Seguro de salud' },
+  { id: 'FREELANCE', name: 'Freelance' },
+  { id: 'SALARY', name: 'Salario' },
+];

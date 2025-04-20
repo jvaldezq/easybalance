@@ -1,31 +1,31 @@
 'use client';
 
-import { Settings, ReceiptText, HandCoins } from 'lucide-react';
+import { House, ReceiptText, HandCoins, CreditCard } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
 import { cn } from '@/lib/utils';
 
 const navigationItems = [
-  // {
-  //   href: '/stats',
-  //   icon: StatsIcon,
-  //   label: 'Estadística',
-  // },
-  // {
-  //   href: '/credit',
-  //   icon: CreditIcon,
-  //   label: 'Créditos',
-  // },
   {
     href: '/expense',
     icon: ReceiptText,
     label: 'Gastos',
   },
   {
+    href: '/credit',
+    icon: CreditCard,
+    label: 'Deudas',
+  },
+  {
     href: '/income',
     icon: HandCoins,
     label: 'Ingresos',
+  },
+  {
+    href: '/home',
+    icon: House,
+    label: 'Home',
   },
   // {
   //   href: '/config',

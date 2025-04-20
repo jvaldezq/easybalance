@@ -77,6 +77,7 @@ export const FormRadioBox = forwardRef(
           {options?.map((option) => {
             return (
               <Button
+                type="button"
                 variant={value === option.id ? 'default' : 'outline'}
                 onClick={() => handleClick(option.id)}
                 key={option.id}

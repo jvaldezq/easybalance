@@ -1,9 +1,4 @@
-import dayjs from 'dayjs';
-import {
-  BanknoteIcon as BanknotesIcon,
-  CalendarIcon,
-  TagIcon,
-} from 'lucide-react';
+import { TagIcon } from 'lucide-react';
 import React from 'react';
 
 import {
@@ -13,92 +8,65 @@ import {
   IINCOME_CATEGORY_TRANSLATION,
 } from '@/lib/definitions';
 import { CRCFormatter, USDFormatter } from '@/lib/numberFormats';
+import { cn } from '@/lib/utils';
 
 export const IncomeCard = (props: IIncome) => {
-  const {
-    description,
-    category,
-    rentTax,
-    ivaTax,
-    createdAt,
-    amount = 0,
-    currency,
-  } = props;
-
-  const calculateNetAmount = () => {
-    if (!amount) return 0;
-    const ivaDeduction = ivaTax ? (amount * ivaTax) / 100 : 0;
-    const rentDeduction = rentTax ? (amount * rentTax) / 100 : 0;
-    return amount - ivaDeduction - rentDeduction;
-  };
+  const { description, rentTax, ivaTax, amount = 0, currency } = props;
 
   return (
-    <div className="bg-white rounded-lg shadow-sm p-4 hover:shadow-md transition-shadow cursor-pointer border border-uranian/20">
-      <div className="flex items-start justify-between mb-2">
-        <div className="flex-1">
-          <h3 className="font-semibold text-tertiary text-sm">
-            {description || 'Sin descripción'}
-          </h3>
-          <div className="flex items-center gap-2 text-sm text-secondary mt-1">
-            <TagIcon size={14} />
-            <span>
-              {IINCOME_CATEGORY_TRANSLATION[category as IINCOME_CATEGORY]}
-            </span>
-          </div>
-        </div>
-        <div className="text-right">
-          <div className="font-bold text-success">
-            {currency === ICURRENCY.CRC
-              ? CRCFormatter(amount)
-              : USDFormatter(amount)}
-          </div>
-          {(ivaTax || rentTax) && (
-            <div className="text-xs text-secondary">
-              Neto:{' '}
+    <div className="bg-white rounded-lg shadow-md p-3 hover:shadow-lg transition-shadow border border-uranian/20">
+      <h3 className="font-semibold text-tertiary text-sm">{description}</h3>
+
+      <div className="my-3 grid grid-cols-[60px_1fr] justify-start items-end gap-2 w-full">
+        <p className="text-tertiary text-xs font-bold text-end">Monto:</p>
+        <div className="flex justify-end items-center grow border-b border-dashed">
+          <div className="flex flex-col gap-1">
+            <p className="text-success font-bold text-xs">
               {currency === ICURRENCY.CRC
-                ? CRCFormatter(calculateNetAmount())
-                : USDFormatter(calculateNetAmount())}
-            </div>
-          )}
+                ? CRCFormatter(amount)
+                : USDFormatter(amount)}
+            </p>
+          </div>
         </div>
       </div>
 
-      {(ivaTax || rentTax) && (
-        <div className="mt-3 space-y-1">
-          {ivaTax && (
-            <div className="flex items-center justify-between text-sm text-tertiary">
-              <span>IVA ({ivaTax}%)</span>
-              <span className="text-error">
-                -
+      {(ivaTax ?? 0) > 0 && (
+        <div className="my-3 grid grid-cols-[60px_1fr] justify-start items-end gap-2 w-full">
+          <p className="text-tertiary text-xs font-bold text-end">IVA:</p>
+          <div className="flex justify-end items-center grow border-b border-dashed">
+            <div className="flex flex-col gap-1">
+              <p className="text-xs text-error">
                 {currency === ICURRENCY.CRC
-                  ? CRCFormatter((amount * ivaTax) / 100)
-                  : USDFormatter((amount * ivaTax) / 100)}
-              </span>
+                  ? CRCFormatter(ivaTax || 0)
+                  : USDFormatter(ivaTax || 0)}
+              </p>
             </div>
-          )}
-          {rentTax && (
-            <div className="flex items-center justify-between text-sm text-tertiary">
-              <span>Renta ({rentTax}%)</span>
-              <span className="text-error">
-                -
-                {currency === ICURRENCY.CRC
-                  ? CRCFormatter((amount * rentTax) / 100)
-                  : USDFormatter((amount * rentTax) / 100)}
-              </span>
-            </div>
-          )}
+          </div>
         </div>
       )}
 
-      <div className="flex items-center justify-between mt-4 pt-3 border-t border-gray-100">
-        <div className="flex items-center gap-2 text-sm text-secondary">
-          <BanknotesIcon size={16} />
-          <span>{currency}</span>
+      {(rentTax ?? 0) > 0 && (
+        <div className="my-3 grid grid-cols-[60px_1fr] justify-start items-end gap-2 w-full">
+          <p className="text-tertiary text-xs font-bold text-end">Renta:</p>
+          <div className="flex justify-end items-center grow border-b border-dashed">
+            <div className="flex flex-col gap-1">
+              <p className="text-xs text-error">
+                {currency === ICURRENCY.CRC
+                  ? CRCFormatter(rentTax || 0)
+                  : USDFormatter(rentTax || 0)}
+              </p>
+            </div>
+          </div>
         </div>
-        <div className="flex items-center gap-2 text-sm text-secondary">
-          <CalendarIcon size={16} />
-          <span>{dayjs(createdAt).format('DD MMM YYYY')}</span>
-        </div>
+      )}
+
+      <div className="flex gap-1 justify-end">
+        <p className="text-tertiary text-xs font-bold">Bruto:</p>
+        <p className={cn('text-xs')}>
+          {currency === ICURRENCY.CRC
+            ? CRCFormatter(amount + (ivaTax || 0) + (rentTax || 0))
+            : USDFormatter(amount + (ivaTax || 0) + (rentTax || 0))}
+        </p>
       </div>
     </div>
   );

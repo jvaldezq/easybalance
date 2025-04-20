@@ -36,6 +36,50 @@ export interface IIncome {
   updatedAt?: Date;
 }
 
+interface Credit {
+  id: string;
+  bank: string;
+  interestRate?: number | null;
+  interestMoratorium?: number | null;
+  currency: string;
+  interestAnual: number;
+  balance: number;
+  monthlyPayment: number;
+  insurance: number;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+interface CreditCards {
+  id: string;
+  bank: string;
+  cashPaymentCRC: number;
+  cashPaymentUSD: number;
+  interestAnual: number;
+  interestMoratorium: number;
+  minimumPaymentCRC: number;
+  minimumPaymentUSD: number;
+  creditCardFinances: CreditCardFinance[];
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+interface CreditCardFinance {
+  id: string;
+  bank: string;
+  interestRate?: number | null;
+  interestMoratorium?: number | null;
+  currency: string;
+  interestAnual: number;
+  balance: number;
+  monthlyPayment: number;
+  insurance: number;
+  creditCardId: string;
+  creditCards: CreditCards;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
 export enum PAYMENT_TYPE {
   CREDIT_CARD = 'CREDIT_CARD',
   SINPE = 'SINPE',
