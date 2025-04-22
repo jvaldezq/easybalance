@@ -36,7 +36,7 @@ export interface IIncome {
   updatedAt?: Date;
 }
 
-interface Credit {
+export interface ICredit {
   id: string;
   bank: string;
   interestRate?: number | null;
@@ -50,7 +50,7 @@ interface Credit {
   updatedAt: Date;
 }
 
-interface CreditCards {
+export interface ICreditCards {
   id: string;
   bank: string;
   cashPaymentCRC: number;
@@ -59,23 +59,23 @@ interface CreditCards {
   interestMoratorium: number;
   minimumPaymentCRC: number;
   minimumPaymentUSD: number;
-  creditCardFinances: CreditCardFinance[];
+  creditCardFinances: ICreditCardFinance[];
   createdAt: Date;
   updatedAt: Date;
 }
 
-interface CreditCardFinance {
+export interface ICreditCardFinance {
   id: string;
   bank: string;
-  interestRate?: number | null;
-  interestMoratorium?: number | null;
+  interestRate?: number;
+  interestMoratorium?: number;
   currency: string;
   interestAnual: number;
   balance: number;
   monthlyPayment: number;
   insurance: number;
   creditCardId: string;
-  creditCards: CreditCards;
+  creditCards: ICreditCards;
   createdAt: Date;
   updatedAt: Date;
 }

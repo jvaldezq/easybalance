@@ -1,86 +1,73 @@
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 
-import { IIncome } from '@/lib/definitions';
+import { ICredit, ICreditCardFinance, ICreditCards } from '@/lib/definitions';
 import prisma from '@/lib/prisma';
 dayjs.extend(utc);
 
-interface Props {
-  month?: string;
-}
-
-export const fetchCreditList = async (props: Props) => {
-  const { month } = props;
-  let createdAt = undefined;
-
+export const fetchCreditList = async () => {
   try {
-    if (month) {
-      // Convert Costa Rica time (UTC -6) to GMT (UTC)
-      const startOfDayInCostaRica = dayjs(month)
-        .utc()
-        .subtract(6, 'hours')
-        .startOf('month');
-      const endOfDayInCostaRica = dayjs(month)
-        .utc()
-        .subtract(6, 'hours')
-        .endOf('month');
-
-      // Convert those to GMT by adding 6 hours to the Costa Rica time
-      const startOfDayInGMT = startOfDayInCostaRica.add(6, 'hours').toDate();
-      const endOfDayInGMT = endOfDayInCostaRica.add(6, 'hours').toDate();
-
-      createdAt = {
-        createdAt: {
-          gte: startOfDayInGMT,
-          lte: endOfDayInGMT,
-        },
-      };
-    } else {
-      // Convert Costa Rica time (UTC -6) to GMT (UTC)
-      const startOfDayInCostaRica = dayjs()
-        .utc()
-        .subtract(6, 'hours')
-        .startOf('month');
-      const endOfDayInCostaRica = dayjs()
-        .utc()
-        .subtract(6, 'hours')
-        .endOf('month');
-
-      // Convert those to GMT by adding 6 hours to the Costa Rica time
-      const startOfDayInGMT = startOfDayInCostaRica.add(6, 'hours').toDate();
-      const endOfDayInGMT = endOfDayInCostaRica.add(6, 'hours').toDate();
-
-      createdAt = {
-        createdAt: {
-          gte: startOfDayInGMT,
-          lte: endOfDayInGMT,
-        },
-      };
-    }
-
-    return (await prisma.income.findMany({
+    const credits = (await prisma.credit.findMany({
       select: {
         id: true,
-        description: true,
-        category: true,
-        amount: true,
+        bank: true,
         currency: true,
-        ivaTax: true,
-        rentTax: true,
-        createdAt: true,
+        interestAnual: true,
+        balance: true,
+        monthlyPayment: true,
+        insurance: true,
       },
       orderBy: {
         createdAt: 'desc',
       },
-      where: {
-        ...createdAt,
+    })) as ICredit[];
+
+    const creditsCards = (await prisma.creditCards.findMany({
+      select: {
+        id: true,
+        bank: true,
+        cashPaymentCRC: true,
+        cashPaymentUSD: true,
+        interestAnual: true,
+        interestMoratorium: true,
+        minimumPaymentCRC: true,
+        minimumPaymentUSD: true,
+        creditCardFinances: true,
       },
-    })) as IIncome[];
+      orderBy: {
+        createdAt: 'desc',
+      },
+    })) as ICreditCards[];
+
+    const creditCardFinances = (await prisma.creditCardFinance.findMany({
+      select: {
+        id: true,
+        bank: true,
+        interestRate: true,
+        interestMoratorium: true,
+        currency: true,
+        interestAnual: true,
+        balance: true,
+        monthlyPayment: true,
+        insurance: true,
+        creditCardId: true,
+        creditCards: true,
+      },
+      orderBy: {
+        createdAt: 'desc',
+      },
+    })) as ICreditCardFinance[];
+
+    return {
+      credits,
+      creditsCards,
+      creditCardFinances,
+    };
   } catch (error) {
-    console.error('Error in fetchIncomeList service:', error);
+    console.error('Error in fetchCreditList service:', error);
 
     throw new Error(
-      `Failed to fetch income list: ${error instanceof Error ? error.message : 'Unknown error'}`,
+      `Failed to fetch credit list: ${error instanceof Error ? error.message : 'Unknown error'}`,
     );
   }
 };
