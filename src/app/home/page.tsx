@@ -6,31 +6,35 @@ import { CRCFormatter, USDFormatter } from '@/lib/numberFormats';
 const Home = async () => {
   const data = await fetchHomeInfo();
 
-  const montlyUSD =
-    (data?.billsAmount?.USD || 0) + (data?.credits?.dollar?.payments || 0);
+  const billsAmountUSD = data?.billsAmount?.USD || 0;
+  const billsAmountCRC = data?.billsAmount?.CRC || 0;
+  const creditsUSDPayments = data?.credits?.dollar?.payments || 0;
+  const creditsCRCPayments = data?.credits?.collons?.payments || 0;
+  const billsAccumulatedUSD = data?.billsAccumulated?.USD || 0;
+  const billsAccumulatedCRC = data?.billsAccumulated?.CRC || 0;
+  const ivaTaxAmountUSD = data?.ivaTaxAmount?.USD || 0;
+  const ivaTaxAmountCRC = data?.ivaTaxAmount?.CRC || 0;
+  const incomeAmountUSD = data?.incomeAmount?.USD || 0;
+  const incomeAmountCRC = data?.incomeAmount?.CRC || 0;
+  const creditsBalanceUSD = data?.credits?.dollar?.balance || 0;
+  const creditsBalanceCRC = data?.credits?.collons?.balance || 0;
 
-  const montlyCRC =
-    (data?.billsAmount?.CRC || 0) + (data?.credits?.collons?.payments || 0);
+  const montlyUSD = billsAmountUSD + creditsUSDPayments;
+
+  const montlyCRC = billsAmountCRC + creditsCRCPayments;
 
   const acumulatedUSD =
-    (data?.billsAccumulated?.USD || 0) +
-    (data?.ivaTaxAmount?.USD || 0) +
-    (data?.rentTaxAmount?.USD || 0);
+    billsAccumulatedUSD + ivaTaxAmountUSD + (data?.rentTaxAmount?.USD || 0);
   const acumulatedCRC =
-    (data?.billsAccumulated?.CRC || 0) +
-    (data?.ivaTaxAmount?.CRC || 0) +
-    (data?.rentTaxAmount?.CRC || 0);
+    billsAccumulatedCRC + ivaTaxAmountCRC + (data?.rentTaxAmount?.CRC || 0);
 
-  const totalDept =
-    (data?.credits?.dollar?.balance || 0) +
-    (data?.credits?.collons?.balance || 0) / 500;
+  const totalDept = creditsBalanceUSD + creditsBalanceCRC / 500;
 
   const totalPayments = montlyUSD + montlyCRC / 500;
 
   const totalAcumulated = acumulatedUSD + acumulatedCRC / 500;
 
-  const totalIncome =
-    (data?.incomeAmount?.USD || 0) + (data?.incomeAmount?.CRC || 0 / 500);
+  const totalIncome = incomeAmountUSD + incomeAmountCRC / 500;
 
   return (
     <section className="grid md:grid-cols-2 lg:grid-cols-3 gap-2 p-4">
@@ -74,13 +78,13 @@ const Home = async () => {
           <div className="flex flex-col items-start justify-start gap-1">
             <p className="text-tertiary text-[10px]">Dolares:</p>
             <p className="text-tertiary font-semibold">
-              {USDFormatter(data?.credits?.dollar?.balance || 0)}
+              {USDFormatter(creditsBalanceUSD)}
             </p>
           </div>
           <div className="flex flex-col items-start justify-start gap-1">
             <p className="text-tertiary text-[10px]">Colones:</p>
             <p className="text-tertiary font-semibold">
-              {CRCFormatter(data?.credits?.collons?.balance || 0)}
+              {CRCFormatter(creditsBalanceCRC)}
             </p>
           </div>
         </div>
@@ -117,16 +121,16 @@ const Home = async () => {
           <div className="flex flex-col items-start justify-start gap-1">
             <p className="text-tertiary text-[10px]">Dolares:</p>
             <p className="text-tertiary font-semibold">
-              {USDFormatter(data?.incomeAmount?.USD || 0)}
+              {USDFormatter(incomeAmountUSD)}
             </p>
           </div>
           <div className="flex flex-col items-start justify-start gap-1">
             <p className="text-tertiary text-[10px]">Colones:</p>
             <p className="text-tertiary font-semibold">
-              {CRCFormatter(data?.incomeAmount?.CRC || 0)}
+              {CRCFormatter(incomeAmountCRC)}
             </p>
             <p className="text-tertiary text-xs font-semibold">
-              {USDFormatter(data?.incomeAmount?.CRC || 0 / 500)} (500 CRC)
+              {USDFormatter(incomeAmountCRC / 500)} (500 CRC)
             </p>
           </div>
         </div>
